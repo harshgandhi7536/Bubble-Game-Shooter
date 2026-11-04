@@ -1,0 +1,47 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Isometra&display=swap');
+
+h1{
+    font-family: 'Isometra', serif;
+    font-weight: 400;
+    color: white;
+    font-style: heavy;
+}
+.parent{
+        background-image: url('../assets/loginbgpage.jpg ');
+        height: 100vh;
+        width: 100vw;
+        background-size: cover;
+}
+.loginPage{
+    margin-left: 16rem;
+    transform: translateY(11rem);
+    color: black;
+    padding-top: 2rem;
+    font-family: "Isometra", serif;
+     font-weight: 400;
+    
+    border: 2px solid rgb(58, 75, 127);
+     border-radius: 22px;
+     width:350px;
+     color: black;
+    font: Arial, Helvetica, sans-serif; 
+}
+
+button{
+    background-color: #e0b389;
+    border: 1px solid black;
+    color: black;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 10rem;   
+    cursor: pointer;
+}
+
+
+/*  */

@@ -1,0 +1,27 @@
+.parentregister{
+  
+    background-size: cover;
+    height: 100vh;
+    width: 100vw;
+}
+
+h1{
+    color: rgb(229, 223, 223);
+}
+.registerPage{
+    display: column;
+    width: 47rem;
+    border: 1px dashed #ccc;
+    margin-left:11%;
+    transform: translateY(37%);
+    align-items: center;
+   
+}
+label{
+    color: rgb(233, 217, 217);
+    border-bottom: 1px solid #ccc;
+}
+
+h1{
+    color: rgb(173, 148, 148);
+}

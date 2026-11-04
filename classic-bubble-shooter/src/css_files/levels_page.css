@@ -1,0 +1,168 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+.level-screen {
+  --ls-bg: #100d24;
+  --ls-muted: #9690ae;
+  --ls-pink: #f778ba;
+  min-height: 100vh;
+  color: #f7f5ff;
+  font-family: "DM Sans", sans-serif;
+  background:
+    radial-gradient(ellipse at 76% 6%, rgba(99, 57, 179, .25), transparent 32%),
+    radial-gradient(ellipse at 6% 42%, rgba(44, 97, 166, .13), transparent 28%),
+    var(--ls-bg);
+  overflow: hidden;
+}
+.level-screen * { box-sizing: border-box; }
+.level-topbar {
+  max-width: 1200px;
+  height: 82px;
+  margin: 0 auto;
+  padding: 0 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+.level-brand { display: flex; align-items: center; gap: 12px; }
+.level-brand > span:last-child { display: flex; flex-direction: column; gap: 2px; }
+.level-brand strong { font: 700 18px "Space Grotesk", sans-serif; letter-spacing: -.3px; }
+.level-brand small { font-size: 8px; color: #9288b0; letter-spacing: 1.7px; }
+.level-brand-orbs { display: flex; align-items: center; padding-left: 3px; }
+.level-bubble {
+  position: relative;
+  display: inline-block;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: var(--bubble);
+  box-shadow: inset -5px -7px 12px rgba(24,13,58,.25), inset 4px 5px 8px rgba(255,255,255,.42), 0 5px 15px rgba(0,0,0,.16);
+}
+.level-bubble::after {
+  content: "";
+  position: absolute;
+  top: 18%;
+  left: 19%;
+  width: 27%;
+  height: 13%;
+  border-radius: 50%;
+  background: rgba(255,255,255,.8);
+  transform: rotate(-35deg);
+}
+.level-bubble.blue { --bubble: linear-gradient(140deg,#8beaff,#35a5ff 72%); }
+.level-bubble.red { --bubble: linear-gradient(140deg,#ff9ca8,#f04452 72%); }
+.level-bubble.yellow { --bubble: linear-gradient(140deg,#fff0a0,#ffb21c 72%); }
+.level-bubble.green { --bubble: linear-gradient(140deg,#9df7cf,#25c978 72%); }
+.level-bubble.purple { --bubble: linear-gradient(140deg,#d0b0ff,#9462f6 72%); }
+.level-bubble.pink { --bubble: linear-gradient(140deg,#ffb4da,#f0449e 72%); }
+.level-brand-orbs .level-bubble { width: 17px; height: 17px; margin-left: -4px; border: 2px solid var(--ls-bg); }
+.level-brand-orbs .level-bubble:first-child { margin-left: 0; }
+.level-player-chip {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 13px; border: 1px solid rgba(255,255,255,.1);
+  border-radius: 999px; background: rgba(255,255,255,.045);
+  color: #d7d2e8; font-size: 11px;
+}
+.level-player-icon {
+  display: grid; place-items: center; width: 24px; height: 24px;
+  border-radius: 50%; color: #e5d7ff; background: linear-gradient(145deg,#9b69ff,#5036a8);
+}
+.level-content { max-width: 1200px; margin: 0 auto; padding: 30px 28px 24px; }
+.level-hero { min-height: 278px; display: flex; position: relative; }
+.level-hero-copy { width: 56%; position: relative; z-index: 1; padding: 19px 0 0 10px; }
+.level-eyebrow, .level-section-kicker {
+  font-size: 9px; letter-spacing: 1.9px; font-weight: 700; color: #a99cc9;
+}
+.level-eyebrow { display: flex; align-items: center; gap: 9px; }
+.level-eyebrow > span { width: 7px; height: 7px; border-radius: 50%; background: #6fe5bd; box-shadow: 0 0 12px #6fe5bd; }
+.level-hero h1 {
+  font: 700 clamp(50px, 5.8vw, 73px)/.98 "Space Grotesk", sans-serif;
+  letter-spacing: -3.5px; margin: 19px 0 15px;
+}
+.level-hero h1 em { color: var(--ls-pink); font-style: normal; text-shadow: 0 7px 35px rgba(247,120,186,.18); }
+.level-hero-copy > p { max-width: 410px; color: #aaa4c1; font-size: 12px; line-height: 1.8; margin: 0; }
+.level-summary { display: flex; gap: 11px; margin-top: 21px; }
+.level-summary-card {
+  min-width: 145px; display: flex; align-items: center; gap: 10px;
+  padding: 10px 12px; border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.035); border-radius: 12px;
+}
+.summary-icon { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 9px; background: rgba(255,255,255,.06); font-size: 16px; }
+.level-summary-card strong { display: block; font: 700 17px "Space Grotesk", sans-serif; }
+.level-summary-card small { display: block; color: #8983a4; font-size: 9px; margin-top: 1px; }
+.level-hero-art { position: absolute; right: 25px; top: 0; width: 42%; height: 270px; }
+.level-orbit { position: absolute; border: 1px solid rgba(168,139,255,.16); border-radius: 50%; }
+.orbit-a { width: 320px; height: 170px; top: 47px; left: 25px; transform: rotate(-24deg); }
+.orbit-b { width: 260px; height: 220px; top: 22px; left: 55px; transform: rotate(38deg); }
+.art-bubble { position: absolute; }
+.art-pink { width: 75px; height: 75px; left: 55px; top: 72px; transform: rotate(-13deg); }
+.art-blue { width: 75px; height: 75px; right: 42px; top: 68px; transform: rotate(18deg); }
+.art-yellow { width: 51px; height: 51px; left: 145px; top: 10px; }
+.art-purple { width: 52px; height: 52px; right: 93px; bottom: 19px; }
+.art-green { width: 27px; height: 27px; left: 9px; bottom: 37px; }
+.level-target { position: absolute; left: 50%; top: 47%; width: 120px; height: 120px; transform: translate(-50%,-50%); border: 1px solid rgba(255,255,255,.15); border-radius: 50%; display: grid; place-items: center; }
+.level-target i { position: absolute; width: 78%; height: 78%; border: 1px solid rgba(255,255,255,.13); border-radius: 50%; }
+.level-target i:nth-child(2) { width: 55%; height: 55%; }
+.level-target i:nth-child(3) { width: 33%; height: 33%; background: rgba(255,255,255,.04); }
+.level-target b { width: 11px; height: 11px; border-radius: 50%; background: var(--ls-pink); box-shadow: 0 0 18px var(--ls-pink); }
+.art-spark { position: absolute; color: #d6c3ff; font-size: 22px; }
+.spark-one { left: 38%; top: 3%; }.spark-two { right: 1%; top: 49%; font-size: 28px; }.spark-three { left: 24%; bottom: 1%; font-size: 15px; }
+.level-picker { margin-top: 9px; }
+.level-section-heading { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 19px; }
+.level-section-heading h2 { font: 600 26px "Space Grotesk", sans-serif; margin: 6px 0 5px; letter-spacing: -.6px; }
+.level-section-heading p { color: #8983a4; font-size: 11px; margin: 0; }
+.level-progress { width: 210px; padding-bottom: 3px; }
+.level-progress > div:first-child { display: flex; align-items: center; justify-content: space-between; margin-bottom: 9px; color: #8983a4; font-size: 8px; letter-spacing: 1px; }
+.level-progress strong { color: #d8caff; font-size: 11px; letter-spacing: 0; }
+.level-progress-track { height: 6px; overflow: hidden; border-radius: 20px; background: rgba(255,255,255,.08); }
+.level-progress-track > span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg,#9462f6,#f778ba); transition: width .25s; }
+.level-number-grid { display: grid; grid-template-columns: repeat(10,minmax(0,1fr)); gap: 9px; }
+.level-number-tile {
+  min-width: 0; aspect-ratio: 1.15; display: flex; flex-direction: column;
+  justify-content: center; align-items: center; gap: 3px; position: relative;
+  border: 1px solid rgba(181,159,255,.2); border-radius: 11px;
+  color: #eae4ff; background: linear-gradient(145deg,rgba(91,65,149,.27),rgba(35,27,67,.7));
+  cursor: pointer; transition: transform .16s,border-color .16s,background .16s;
+}
+.level-number-tile:hover:not(:disabled) { transform: translateY(-3px); border-color: #a98aff; background: rgba(125,88,218,.25); }
+.level-number-tile.current { border-color: var(--ls-pink); background: linear-gradient(145deg,rgba(247,120,186,.2),rgba(95,50,126,.3)); box-shadow: 0 0 0 1px rgba(247,120,186,.12),0 6px 24px rgba(247,120,186,.08); }
+.level-number-tile.completed { background: linear-gradient(145deg,rgba(57,194,147,.15),rgba(29,69,78,.24)); border-color: rgba(93,226,177,.27); }
+.level-number-tile.locked { cursor: not-allowed; background: rgba(255,255,255,.018); border-color: rgba(255,255,255,.045); color: #615a7b; }
+.level-tile-number { font: 700 clamp(13px,1.45vw,18px) "Space Grotesk",sans-serif; }
+.level-tile-status { font-size: 10px; line-height: 1.2; }
+.level-number-tile.completed .level-tile-status { color: #6fe5bd; font-weight: 700; font-size: 12px; }
+.level-number-tile.current .level-tile-status { color: #f7a1cd; font-size: 8px; }
+.level-number-tile.locked .level-tile-status { font-size: 9px; filter: grayscale(1); opacity: .45; }
+.level-tile-dots { display: flex; gap: 3px; margin-top: 3px; }
+.level-tile-dots i { width: 3px; height: 3px; border-radius: 50%; background: currentColor; opacity: .5; }
+.level-number-tile.locked .level-tile-dots { opacity: .15; }
+.level-legend { display: flex; gap: 19px; margin-top: 16px; color: #827b9d; font-size: 9px; }
+.level-legend > span { display: flex; align-items: center; gap: 7px; }
+.level-legend i { display: inline-block; width: 7px; height: 7px; border-radius: 50%; }
+.legend-current { background: var(--ls-pink); }.legend-completed { background: #6fe5bd; }.legend-locked { background: #514967; }
+.level-footer { display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,.07); padding-top: 17px; margin-top: 28px; color: #68617f; font-size: 8px; letter-spacing: .6px; }
+@media (max-width: 760px) {
+  .level-topbar { height: 70px; padding: 0 17px; }
+  .level-content { padding: 22px 17px; }
+  .level-player-chip { font-size: 0; padding: 5px; }
+  .level-player-icon { font-size: 13px; }
+  .level-hero { min-height: 300px; }
+  .level-hero-copy { width: 100%; padding: 12px 0 0; }
+  .level-hero h1 { font-size: 57px; }
+  .level-hero-copy > p { max-width: 340px; }
+  .level-hero-art { right: -105px; top: 5px; width: 60%; opacity: .42; transform: scale(.8); transform-origin: top right; }
+  .level-summary { margin-top: 18px; }
+  .level-summary-card { min-width: 0; padding: 9px; gap: 7px; }
+  .summary-icon { width: 29px; height: 29px; font-size: 14px; }
+  .level-picker { margin-top: 5px; }
+  .level-section-heading { align-items: start; flex-direction: column; gap: 15px; }
+  .level-progress { width: 100%; max-width: 320px; }
+  .level-number-grid { grid-template-columns: repeat(5,minmax(0,1fr)); gap: 8px; }
+  .level-number-tile { aspect-ratio: 1.12; }
+  .level-tile-number { font-size: 17px; }
+  .level-footer { gap: 10px; font-size: 7px; }
+}
+@media (max-width: 390px) {
+  .level-hero h1 { font-size: 49px; }
+  .level-hero-art { right: -135px; opacity: .3; }
+  .level-legend { gap: 11px; font-size: 8px; }
+}
