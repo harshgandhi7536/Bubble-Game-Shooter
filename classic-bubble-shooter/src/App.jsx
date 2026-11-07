@@ -4,6 +4,7 @@ import RegisterPage from "./registerpage";
 import GameScreen from "./gamescreen";
 import LoginScreen from "./loginscreen";
 import Levels_Page from "./levels_page";
+import PlayerDashboard from "./playerDashboard";
  function App(){
     return (
    <BrowserRouter>
@@ -14,6 +15,8 @@ import Levels_Page from "./levels_page";
         <Route path ="/" element={<LoginScreen />}/>
         <Route path ="/levels" element={<Levels_Page />}/>
         <Route path ="/gamescreen" element={<GameScreen />}/>
+          {/* Player Dashboard */}
+        <Route path="/dashboard" element={<PlayerDashboard />} />
     </Routes>
    </BrowserRouter>
   );

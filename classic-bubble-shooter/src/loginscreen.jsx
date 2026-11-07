@@ -1,7 +1,8 @@
-//  import { useNavigate } from "react-router-dom";
+
+
+// import { useNavigate, Link } from "react-router-dom";
 // import { useState } from "react";
-// import './css_files/loginscreen.css';  
-// import RegisterPage from "./registerpage.jsx";
+// import './css_files/loginscreen.css';
 // function LoginPage() {
 
 //     const navigate = useNavigate();
@@ -9,40 +10,127 @@
 //     const [email, setEmail] = useState("");
 //     const [password, setPassword] = useState("");
 
-//     const handleLogin = (e) => {
-//          navigate("/levels");
-//     };
+//     // const handleLogin = async (e) => {
+//     //     e.preventDefault();
+
+//     //     try {
+//     //         // Check captured form data
+//     //         console.log("Email:", email);
+//     //         console.log("Password entered:", password.length > 0);
+
+//     //         // Send login data to backend
+//     //         const response = await fetch("http://localhost:8000/signup/login", {
+//     //             method: "POST",
+//     //             headers: {
+//     //                 "Content-Type": "application/json"
+//     //             },
+//     //             body: JSON.stringify({
+//     //                 email: email,
+//     //                 password: password
+//     //             })
+//     //         });
+
+//     //         const data = await response.json();
+
+//     //         console.log("Backend response:", data);
+
+//     //         if (response.ok) {
+//     //             alert(data.message);
+
+//     //             // Navigate after successful login
+//     //             navigate("/levels");
+//     //         } else {
+//     //             alert(data.message);
+//     //         }
+
+//     //     } catch (error) {
+//     //         console.log("Login Error:", error);
+//     //         alert("Unable to connect to server!");
+//     //     }
+//     // };
+
+//     const handleLogin = async (e) => {
+//     e.preventDefault();
+
+//     try {
+//         const response = await fetch("http://localhost:8000/signup/login", {
+//             method: "POST",
+//             headers: {
+//                 "Content-Type": "application/json"
+//             },
+//             body: JSON.stringify({
+//                 email,
+//                 password
+//             })
+//         });
+
+//         const data = await response.json();
+
+    
+//         if (response.ok) {
+//              // Save logged-in user details
+//             localStorage.setItem(
+//                     "bubble-shooter-user",
+//                     JSON.stringify(data.user)
+//             );
+
+//             // Navigate to levels page
+//             navigate("/dashboard", { state: { user: data.user } });
+
+//             } else {
+//                 alert(data.message || "Login failed");
+//             }
+
+//     } catch (error) {
+//         console.log("Login Error:", error);
+//         alert("Unable to connect to server!");
+//     }
+// };
 //     return (
 //         <div className="parent">
 
-//         <div className="loginPage">
-//                         <h1 >SignIn</h1>
-            
-//             <form onSubmit={handleLogin}> 
-//             <label htmlFor="email">Email:</label>
-//             <input
-//                 type="email"
-//                 placeholder="Enter email"
-//                 value={email}
-//                 onChange={(e) => setEmail(e.target.value)}
-//             />
-//             <br />
-//             <label htmlFor="password">Password:</label>
-//             <input
-//                 type="password"
-//                 placeholder="Enter password"
-//                 value={password}
-//                 onChange={(e) => setPassword(e.target.value)}
-//             />
+//             <div className="loginPage">
 
-//             <button type="submit">
-//                 Login
-//             </button>
-//             <br />
-//             new user? <a href="/signup">Sign up</a>
+//                 <h1>SignIn</h1>
 
-//         </form>
-//         </div>
+//                 <form onSubmit={handleLogin}>
+
+//                     <label htmlFor="email">Email:</label>
+
+//                     <input
+//                         id="email"
+//                         type="email"
+//                         placeholder="Enter email"
+//                         value={email}
+//                         onChange={(e) => setEmail(e.target.value)}
+//                         required
+//                     />
+
+//                     <br />
+
+//                     <label htmlFor="password">Password:</label>
+
+//                     <input
+//                         id="password"
+//                         type="password"
+//                         placeholder="Enter password"
+//                         value={password}
+//                         onChange={(e) => setPassword(e.target.value)}
+//                         required
+//                     />
+
+//                     <button type="submit">
+//                         Login
+//                     </button>
+
+//                     <br />
+
+//                     New user? <Link to="/signup">Sign up</Link>
+
+//                 </form>
+
+//             </div>
+
 //         </div>
 //     );
 // }
@@ -50,53 +138,12 @@
 // export default LoginPage;
 
 
-// import User from "../server/model/userModel.js";
-// import bcrypt from "bcrypt";
-
-// // REGISTER USER
-// export const createUser = async (req, res) => {
-//     try {
-//         const { firstname, lastname, email, password } = req.body;
-
-//         const existingUser = await User.findOne({ email });
-
-//         if (existingUser) {
-//             return res.status(400).json({
-//                 message: "Email already registered!"
-//             });
-//         }
-
-//         const hashedPassword = await bcrypt.hash(password, 10);
-
-//         const newUser = new User({
-//             firstname,
-//             lastname,
-//             email,
-//             password: hashedPassword
-//         });
-
-//         await newUser.save();
-
-//         res.status(201).json({
-//             message: "User registered successfully!"
-//         });
-
-//     } catch (error) {
-//         console.log(error);
-
-//         res.status(500).json({
-//             message: "Registration failed!"
-//         });
-//     }
-// };
-
 
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
-import './css_files/loginscreen.css';
+import "./css_files/loginscreen.css";
 
 function LoginPage() {
-
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -106,33 +153,33 @@ function LoginPage() {
         e.preventDefault();
 
         try {
-            // Check captured form data
-            console.log("Email:", email);
-            console.log("Password entered:", password.length > 0);
-
-            // Send login data to backend
             const response = await fetch("http://localhost:8000/signup/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    email: email,
-                    password: password
+                    email,
+                    password
                 })
             });
 
             const data = await response.json();
 
-            console.log("Backend response:", data);
-
             if (response.ok) {
-                alert(data.message);
+                // Save logged-in user details
+                localStorage.setItem(
+                    "bubble-shooter-user",
+                    JSON.stringify(data.user)
+                );
 
-                // Navigate after successful login
-                navigate("/levels");
+                // Navigate to dashboard
+                navigate("/dashboard", {
+                    state: { user: data.user }
+                });
+
             } else {
-                alert(data.message);
+                alert(data.message || "Login failed");
             }
 
         } catch (error) {
@@ -142,50 +189,139 @@ function LoginPage() {
     };
 
     return (
-        <div className="parent">
+        <div className="login-parent">
 
-            <div className="loginPage">
+            {/* Decorative bubbles */}
+            <div className="login-bubble bubble-one"></div>
+            <div className="login-bubble bubble-two"></div>
+            <div className="login-bubble bubble-three"></div>
+            <div className="login-bubble bubble-four"></div>
 
-                <h1>SignIn</h1>
+            <div className="login-container">
 
-                <form onSubmit={handleLogin}>
+                {/* Left side branding */}
+                <div className="login-welcome">
 
-                    <label htmlFor="email">Email:</label>
+                    <div className="login-logo">
+                        <span className="logo-bubble pink"></span>
+                        <span className="logo-bubble blue"></span>
+                        <span className="logo-bubble yellow"></span>
+                    </div>
 
-                    <input
-                        id="email"
-                        type="email"
-                        placeholder="Enter email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
+                    <h1>
+                        BUBBLE <span>SHOOTER</span>
+                    </h1>
 
-                    <br />
+                    <h2>Ready to Play?</h2>
 
-                    <label htmlFor="password">Password:</label>
+                    <p>
+                        Welcome back, player! Your next bubble
+                        adventure is waiting for you.
+                    </p>
 
-                    <input
-                        id="password"
-                        type="password"
-                        placeholder="Enter password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
+                    <div className="welcome-decoration">
+                        <span>●</span>
+                        <span>●</span>
+                        <span>●</span>
+                        <span>●</span>
+                        <span>●</span>
+                    </div>
 
-                    <button type="submit">
-                        Login
-                    </button>
+                    <div className="welcome-tagline">
+                        AIM. SHOOT. MATCH. WIN.
+                    </div>
 
-                    <br />
+                </div>
 
-                    New user? <Link to="/signup">Sign up</Link>
+                {/* Login form */}
+                <div className="login-form-section">
 
-                </form>
+                    <div className="login-card">
+
+                        <div className="login-heading">
+                            <span className="login-icon">✦</span>
+
+                            <h2>Welcome Back!</h2>
+
+                            <p>Sign in to continue your adventure</p>
+                        </div>
+
+                        <form onSubmit={handleLogin}>
+
+                            <div className="login-input-group">
+                                <label htmlFor="email">
+                                    Email Address
+                                </label>
+
+                                <div className="login-input-wrapper">
+                                    <span className="input-icon">✉</span>
+
+                                    <input
+                                        id="email"
+                                        type="email"
+                                        placeholder="Enter your email"
+                                        value={email}
+                                        onChange={(e) =>
+                                            setEmail(e.target.value)
+                                        }
+                                        autoComplete="email"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="login-input-group">
+                                <label htmlFor="password">
+                                    Password
+                                </label>
+
+                                <div className="login-input-wrapper">
+                                    <span className="input-icon">🔒</span>
+
+                                    <input
+                                        id="password"
+                                        type="password"
+                                        placeholder="Enter your password"
+                                        value={password}
+                                        onChange={(e) =>
+                                            setPassword(e.target.value)
+                                        }
+                                        autoComplete="current-password"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                className="login-submit-btn"
+                            >
+                                Login to Game
+                                <span> → </span>
+                            </button>
+
+                        </form>
+
+                        <div className="login-divider">
+                            <span></span>
+                            <p>NEW TO POPVERSE?</p>
+                            <span></span>
+                        </div>
+
+                        <p className="signup-text">
+                            Don't have an account?
+                            <Link to="/signup"> Create Account</Link>
+                        </p>
+
+                    </div>
+
+                    <p className="login-footer">
+                        © 2026 POPVERSE · LET THE FUN BEGIN!
+                    </p>
+
+                </div>
 
             </div>
-
         </div>
     );
 }

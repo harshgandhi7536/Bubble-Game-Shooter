@@ -1,7 +1,7 @@
 /* =========================================
    BUBBLE POP — GAME SCREEN STYLES
    ========================================= */
-
+/*
 :root {
   --bg: #090d1b;
   --panel: #121a2e;
@@ -14,6 +14,8 @@
 }
 
 /* Reset */
+
+/*
 * {
   box-sizing: border-box;
 }
@@ -32,7 +34,7 @@
 
 /* =========================================
    HEADER
-   ========================================= */
+   ========================================= 
 
 .topbar {
   width: 100%;
@@ -119,7 +121,7 @@
 
 /* =========================================
    MAIN LAYOUT
-   ========================================= */
+   ========================================= 
 
 .game-layout {
   max-width: 1250px;
@@ -146,4 +148,93 @@
 
 .stat-card {
   padding: 19px 22px;
+}
+
+*/
+
+
+* { box-sizing: border-box; }
+.bubble-game {
+  min-height: 100vh; padding: 24px; color: #f7f8ff;
+  background: radial-gradient(circle at 50% 0%, #253f82 0, #101a3a 48%, #090f25 100%);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, sans-serif;
+}
+.game-topbar {
+  width: min(1120px, 100%); margin: 0 auto 18px; display: flex;
+  align-items: center; justify-content: space-between; gap: 18px;
+}
+.eyebrow { color: #a9b9ef; letter-spacing: .16em; font-size: 10px; font-weight: 800; }
+.game-topbar h1 { margin: 4px 0 0; font-size: clamp(24px, 4vw, 34px); }
+.game-stats { display: flex; align-items: center; gap: 22px; }
+.game-stats div { display: grid; gap: 3px; text-align: right; }
+.game-stats small, .preview-row small { color: #a9b9ef; font-size: 10px; letter-spacing: .12em; }
+.game-stats strong { font-size: 20px; }
+.icon-button {
+  border: 1px solid #5369a5; color: white; background: #253b77;
+  width: 42px; height: 42px; border-radius: 13px; font-size: 20px; cursor: pointer;
+}
+.game-layout {
+  width: min(1120px, 100%); margin: auto; display: grid;
+  grid-template-columns: minmax(0, 720px) minmax(220px, 280px); gap: 18px; align-items: start;
+}
+.game-canvas-wrap {
+  position: relative; height: min(78vh, 720px); min-height: 520px;
+  border: 1px solid rgba(180,198,255,.25); border-radius: 24px; overflow: hidden;
+  box-shadow: 0 22px 70px rgba(0,0,0,.35);
+}
+.game-canvas { display: block; width: 100%; height: 100%; touch-action: none; cursor: crosshair; }
+.game-sidebar { display: grid; gap: 14px; }
+.preview-card {
+  padding: 18px; border: 1px solid rgba(180,198,255,.2); border-radius: 18px;
+  background: rgba(27,43,88,.72); box-shadow: 0 12px 32px rgba(0,0,0,.16);
+}
+.preview-row { display: flex; align-items: center; justify-content: space-around; margin-top: 17px; }
+.preview-row > div { display: grid; justify-items: center; gap: 10px; }
+.preview-bubble {
+  width: 42px; height: 42px; border-radius: 50%; display: block;
+  border: 3px solid rgba(255,255,255,.7); box-shadow: inset -7px -9px 12px rgba(0,0,0,.25), inset 5px 5px 8px rgba(255,255,255,.4);
+}
+.preview-bubble.small { width: 32px; height: 32px; }
+.queue-arrow { color: #9fb4ff; font-size: 24px; }
+.preview-card p { color: #c4cdef; line-height: 1.55; font-size: 13px; margin: 12px 0 0; }
+.control-card { display: grid; gap: 10px; }
+.wide-button, .result-actions button, .result-card > button {
+  border: 0; border-radius: 12px; padding: 12px 15px; color: #17234c;
+  background: linear-gradient(135deg, #ffe17b, #ffb84d); font-weight: 800; cursor: pointer;
+}
+.wide-button.secondary, .result-actions .secondary, .result-card > button.secondary {
+  color: #e8edff; background: #334a88; border: 1px solid #647bb7;
+}
+.control-card small { color: #9eadd9; font-size: 10px; line-height: 1.5; }
+.game-toast {
+  position: absolute; top: 18px; left: 50%; transform: translateX(-50%);
+  background: rgba(255,220,105,.95); color: #24315f; border-radius: 30px;
+  padding: 9px 18px; font-weight: 900; font-size: 13px; pointer-events: none;
+}
+.game-overlay {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  background: rgba(5,10,30,.72); backdrop-filter: blur(7px); padding: 20px;
+}
+.result-card {
+  width: min(340px, 100%); padding: 28px; text-align: center;
+  background: linear-gradient(160deg, #314b91, #192955); border: 1px solid #7188c8;
+  border-radius: 22px; box-shadow: 0 20px 55px rgba(0,0,0,.35);
+}
+.result-card h2 { margin: 8px 0 14px; font-size: 22px; }
+.result-card p { color: #d4ddff; margin: 8px 0; }
+.result-emoji { font-size: 42px; }
+.result-actions { display: flex; gap: 9px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+@media (max-width: 760px) {
+  .bubble-game { padding: 12px; }
+  .game-layout { grid-template-columns: 1fr; }
+  .game-canvas-wrap { height: min(68vh, 650px); min-height: 440px; }
+  .game-sidebar { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .control-card { grid-column: 1 / -1; }
+  .game-topbar { margin-bottom: 12px; }
+}
+@media (max-width: 430px) {
+  .game-stats { gap: 10px; }
+  .game-stats strong { font-size: 16px; }
+  .game-sidebar { grid-template-columns: 1fr; }
+  .control-card { grid-column: auto; }
 }

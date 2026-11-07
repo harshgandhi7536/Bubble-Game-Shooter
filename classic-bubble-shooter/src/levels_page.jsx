@@ -1,5 +1,10 @@
+import React, {
+    useCallback,
+    useMemo,
+    useState
+} from "react";
 
-import React, { useCallback, useMemo, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./css_files/levels_page.css";
 import Gamescreen from "./gamescreen.jsx";
 
@@ -33,6 +38,11 @@ function Levels_Page() {
   const [selectedLevel, setSelectedLevel] = useState(1);
   const [showGame, setShowGame] = useState(false);
 
+const navigate = useNavigate();
+
+const player = JSON.parse(
+    localStorage.getItem("bubble-shooter-user") || "null"
+);
   // Shared game state: Gamescreen updates these values.
   const [shots, setShots] = useState(25);
   const [score, setScore] = useState(0);
@@ -94,44 +104,67 @@ function Levels_Page() {
   const progress = Math.round(
     ((unlockedLevel - 1) / TOTAL_LEVELS) * 100
   );
+  // Login protection
+  if (!player?.id) {
+    return (
+      <div>
+        <h2>Please login first!</h2>
 
+        <button onClick={() => navigate("/")}>
+          Go to Login
+        </button>
+      </div>
+    );
+  }
   return (
+    
     <main className="app-shell">
       <div className="ambient ambient-one" />
       <div className="ambient ambient-two" />
 
       {/* Top navigation */}
-      <header className="topbar">
-        <a
-          className="brand"
-          href="#home"
-          onClick={(event) => {
-            event.preventDefault();
-            backToLevels();
-          }}
-        >
-          <span className="brand-mark">
-            <Bubble color="pink" />
-            <Bubble color="blue" />
-            <Bubble color="yellow" />
-          </span>
+      
+<header className="topbar">
+  <a
+    className="brand"
+    href="#home"
+    onClick={(event) => {
+      event.preventDefault();
+      backToLevels();
+    }}
+  >
+    <span className="brand-mark">
+      <Bubble color="pink" />
+      <Bubble color="blue" />
+      <Bubble color="yellow" />
+    </span>
 
-          <span>
-            POP<span className="brand-accent">VERSE</span>
-          </span>
-        </a>
+    <span>
+      POP<span className="brand-accent">VERSE</span>
+    </span>
+  </a>
 
-        <div className="topbar-right">
-          <div className="player-pill">
-            <span className="player-avatar">✦</span>
-            <span>Bubble Explorer</span>
-          </div>
+  <div className="topbar-right">
+    <div className="player-pill">
+      <span className="player-avatar">✦</span>
+      <span>
+        {player.firstname} {player.lastname}
+      </span>
+    </div>
 
-          <div className="coin-pill">
-            <span>✧</span> {Math.max(120, score + 120)}
-          </div>
-        </div>
-      </header>
+    <button
+      className="dashboard-button"
+      onClick={() => navigate("/dashboard")}
+    >
+      👤 Dashboard
+    </button>
+
+    <div className="coin-pill">
+      <span>✧</span> {Math.max(120, score + 120)}
+    </div>
+  </div>
+</header>
+
 
       {!showGame ? (
         /* ================= LEVEL SELECTION PAGE ================= */
