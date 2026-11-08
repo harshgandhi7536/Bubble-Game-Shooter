@@ -1,8 +1,8 @@
+
 import React, { useState } from 'react';
 import './css_files/registerpage.css';
 
 function RegisterPage() {
-
     const [email, setEmail] = useState("");
     const [firstname, setFirstname] = useState("");
     const [lastname, setLastname] = useState("");
@@ -10,135 +10,165 @@ function RegisterPage() {
     const [confirmPassword, setConfirmpassword] = useState("");
 
     const handleRegister = async (e) => {
-
         e.preventDefault();
 
-        // 1. Check password
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
 
         try {
-
-            // 2. Send data to backend
             const response = await fetch("http://localhost:8000/signup/users", {
-
                 method: "POST",
-
                 headers: {
                     "Content-Type": "application/json"
                 },
-
                 body: JSON.stringify({
                     firstname,
                     lastname,
                     email,
                     password
                 })
-
             });
 
-            // 3. Get backend response
             const data = await response.json();
 
             if (response.ok) {
-
                 alert(data.message);
 
-                // Clear form
                 setFirstname("");
                 setLastname("");
                 setEmail("");
                 setPassword("");
                 setConfirmpassword("");
-
             } else {
-
                 alert(data.message);
-
             }
 
         } catch (error) {
-
             console.log(error);
             alert("Something went wrong!");
-
         }
-
     };
 
-
     return (
-
         <div className="parentregister">
+            <div className="register-decoration">
+                <div className="register-glow glow-one"></div>
+                <div className="register-glow glow-two"></div>
 
-            <div className="registerPage">
+                <div className="register-brand">
+                    <span className="brand-icon">🫧</span>
+                    <span>BUBBLE BLAST</span>
+                    <span className="brand-highlight">ADVENTURE</span>
+                </div>
 
-                <form onSubmit={handleRegister}>
+                <div className="register-welcome">
+                    <span className="welcome-tag">YOUR ADVENTURE STARTS HERE</span>
+                    <h1>
+                        Ready to<br />
+                        <span>Pop Some Fun?</span>
+                    </h1>
+                    <p>
+                        Join the adventure, challenge yourself,
+                        and blast your way through 50 exciting levels!
+                    </p>
 
-                    <h1>Register Page</h1>
+                    <div className="bubble-art">
+                        <span className="bubble bubble-pink"></span>
+                        <span className="bubble bubble-blue"></span>
+                        <span className="bubble bubble-yellow"></span>
+                        <span className="bubble bubble-purple"></span>
+                        <span className="bubble bubble-green"></span>
+                        <span className="bubble bubble-orange"></span>
+                    </div>
 
-                    <label>Enter first name</label>
-
-                    <input
-                        type="text"
-                        placeholder="First Name"
-                        required
-                        value={firstname}
-                        onChange={(e) => setFirstname(e.target.value)}
-                    />
-
-                    <label>Enter last name</label>
-
-                    <input
-                        type="text"
-                        placeholder="Last Name"
-                        required
-                        value={lastname}
-                        onChange={(e) => setLastname(e.target.value)}
-                    />
-
-                    <label>Enter email</label>
-
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-
-                    <label>Enter password</label>
-
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        required
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-
-                    <label>Confirm password</label>
-
-                    <input
-                        type="password"
-                        placeholder="Confirm Password"
-                        required
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmpassword(e.target.value)}
-                    />
-
-                    <button type="submit">Register</button>
-
-                </form>
-
+                    <div className="register-features">
+                        <div>🎯 <span>50 exciting levels</span></div>
+                        <div>🏆 <span>Earn stars and rewards</span></div>
+                        <div>🚀 <span>Beat your best score</span></div>
+                    </div>
+                </div>
             </div>
 
+            <div className="registerPage">
+                <div className="register-card">
+                    <div className="register-card-heading">
+                        <span className="register-small-tag">CREATE YOUR ACCOUNT</span>
+                        <h2>Let's Get Started!</h2>
+                        <p>Sign up and start your bubble-popping journey.</p>
+                    </div>
+
+                    <form onSubmit={handleRegister}>
+                        <div className="register-name-row">
+                            <div className="register-field">
+                                <label>First Name</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter first name"
+                                    required
+                                    value={firstname}
+                                    onChange={(e) => setFirstname(e.target.value)}
+                                />
+                            </div>
+
+                            <div className="register-field">
+                                <label>Last Name</label>
+                                <input
+                                    type="text"
+                                    placeholder="Enter last name"
+                                    required
+                                    value={lastname}
+                                    onChange={(e) => setLastname(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="register-field">
+                            <label>Email Address</label>
+                            <input
+                                type="email"
+                                placeholder="Enter your email"
+                                required
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="register-field">
+                            <label>Password</label>
+                            <input
+                                type="password"
+                                placeholder="Create a password"
+                                required
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="register-field">
+                            <label>Confirm Password</label>
+                            <input
+                                type="password"
+                                placeholder="Re-enter your password"
+                                required
+                                value={confirmPassword}
+                                onChange={(e) => setConfirmpassword(e.target.value)}
+                            />
+                        </div>
+
+                        <button type="submit" className="register-submit">
+                            Create Account <span>→</span>
+                        </button>
+                    </form>
+
+                    <div className="register-footer">
+                        <span>🫧</span> Let the bubble adventure begin!
+                    </div>
+                </div>
+            </div>
         </div>
-
     );
-
 }
 
 export default RegisterPage;

@@ -56,7 +56,7 @@ const gameSessionSchema = new mongoose.Schema({
     status: {
         type: String,
         enum: ["playing", "won", "failed"],
-        default: "playing"
+        required: true,
     },
 
     startedAt: {

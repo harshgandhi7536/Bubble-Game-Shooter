@@ -226,16 +226,21 @@ useEffect(() => {
             : 0;
 
         const gameResult = {
-            userId: player.id,
-            sessionId: sessionId,
-            score: score,
-            stars: stars,
-            shots: getShotLimit(level) - shots,
-            bestCombo: metricsRef.current.bestCombo,
-            bubblesPopped: metricsRef.current.bubblesPopped,
-            rescues: metricsRef.current.rescues,
-            completed: completed
-        };
+    userId: player.id,
+    sessionId: sessionId,
+    level: level,
+    score: score,
+    stars: stars,
+
+    status: completed ? "won" : "failed",
+
+    shots: getShotLimit(level) - shots,
+    bestCombo: metricsRef.current.bestCombo,
+    bubblesPopped: metricsRef.current.bubblesPopped,
+    rescues: metricsRef.current.rescues,
+
+    completed: completed
+};
 
         try {
 
@@ -536,7 +541,7 @@ const updateGame = useCallback((width, height) => {
         if (remaining === 0) {
             setStatus("won");
             setMessage("LEVEL COMPLETE!");
-        } else if (shots <= 1) {
+        } else if (shots <= 0) {
             setStatus("failed");
             setMessage("OUT OF SHOTS!");
         }

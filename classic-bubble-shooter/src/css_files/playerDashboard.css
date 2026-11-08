@@ -684,3 +684,21 @@
         line-height: 1.6;
     }
 }
+
+
+ 
+.dashboard-button {
+    padding: 10px 18px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 12px;
+    background: linear-gradient(135deg, #7655e8, #4b36bd);
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.dashboard-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 18px rgba(118, 85, 232, 0.35);
+} 
