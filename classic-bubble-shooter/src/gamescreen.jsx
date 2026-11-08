@@ -140,6 +140,8 @@ const completionSentRef = useRef(false);
   const [message, setMessage] = useState("");
   const [soundOn, setSoundOn] = useState(false);
 const clickSoundAudio = useRef(null);
+const API_URL =
+    import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 useEffect(() => {
   clickSoundAudio.current = new Audio(clickSound);
@@ -244,8 +246,8 @@ useEffect(() => {
 
         try {
 
-            const response = await fetch(
-                "http://localhost:8000/api/games/complete",
+           const response = await fetch(
+    `${API_URL}/api/games/complete`,
                 {
                     method: "POST",
                     headers: {
@@ -309,8 +311,8 @@ const startGameSession = async (gameLevel) => {
         completionSentRef.current = false;
         setSessionId(null);
 
-        const response = await fetch(
-            "http://localhost:8000/api/games/start",
+       const response = await fetch(
+    `${API_URL}/api/games/start`,
             {
                 method: "POST",
 

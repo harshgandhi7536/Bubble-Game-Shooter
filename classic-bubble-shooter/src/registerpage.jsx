@@ -1,6 +1,8 @@
-
+ 
 import React, { useState } from 'react';
 import './css_files/registerpage.css';
+
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 
 function RegisterPage() {
     const [email, setEmail] = useState("");
@@ -18,7 +20,7 @@ function RegisterPage() {
         }
 
         try {
-            const response = await fetch("http://localhost:8000/signup/users", {
+            const response = await fetch(`${API_URL}/signup/users`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -42,11 +44,11 @@ function RegisterPage() {
                 setPassword("");
                 setConfirmpassword("");
             } else {
-                alert(data.message);
+                alert(data.message || "Registration failed!");
             }
 
         } catch (error) {
-            console.log(error);
+            console.error("Registration Error:", error);
             alert("Something went wrong!");
         }
     };

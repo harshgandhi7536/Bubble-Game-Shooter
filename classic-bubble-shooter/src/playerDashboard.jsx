@@ -3,9 +3,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css_files/playerDashboard.css";
 
-const API_URL = "http://localhost:8000/api/games";
+const API_URL =
+    import.meta.env.VITE_API_URL || "http://localhost:8000";
 
-function playerDashboard() {
+const GAMES_API = `${API_URL}/api/games`;
+
+function PlayerDashboard() {
     const navigate = useNavigate();
 
     const [player, setPlayer] = useState(null);
@@ -36,6 +39,8 @@ function playerDashboard() {
             return;
         }
 
+        const controller = new AbortController();
+
         const fetchDashboard = async () => {
             try {
                 setLoading(true);
@@ -43,8 +48,14 @@ function playerDashboard() {
 
                 const [dashboardResponse, historyResponse] =
                     await Promise.all([
-                        fetch(`${API_URL}/dashboard/${loggedInUser.id}`),
-                        fetch(`${API_URL}/history/${loggedInUser.id}`)
+                        fetch(
+                            `${GAMES_API}/dashboard/${loggedInUser.id}`,
+                            { signal: controller.signal }
+                        ),
+                        fetch(
+                            `${GAMES_API}/history/${loggedInUser.id}`,
+                            { signal: controller.signal }
+                        )
                     ]);
 
                 const dashboardData = await dashboardResponse.json();
@@ -52,20 +63,24 @@ function playerDashboard() {
 
                 if (!dashboardResponse.ok) {
                     throw new Error(
-                        dashboardData.message || "Unable to load player details."
+                        dashboardData.message ||
+                        "Unable to load player details."
                     );
                 }
 
                 if (!historyResponse.ok) {
                     throw new Error(
-                        historyData.message || "Unable to load game history."
+                        historyData.message ||
+                        "Unable to load game history."
                     );
                 }
 
-                // Supports either { player: {...} } or a direct player object.
-                setPlayer(dashboardData.player || dashboardData);
+                // Supports { player: {...} } or direct player object
+                setPlayer(
+                    dashboardData.player || dashboardData
+                );
 
-                // Supports either { history: [...] } or a direct array.
+                // Supports { history: [...] } or direct array
                 setHistory(
                     Array.isArray(historyData)
                         ? historyData
@@ -73,14 +88,23 @@ function playerDashboard() {
                 );
 
             } catch (err) {
-                console.error("Dashboard Error:", err);
-                setError(err.message || "Something went wrong.");
+                if (err.name !== "AbortError") {
+                    console.error("Dashboard Error:", err);
+                    setError(
+                        err.message || "Something went wrong."
+                    );
+                }
             } finally {
-                setLoading(false);
+                if (!controller.signal.aborted) {
+                    setLoading(false);
+                }
             }
         };
 
         fetchDashboard();
+
+        return () => controller.abort();
+
     }, [navigate]);
 
     const logout = () => {
@@ -91,7 +115,13 @@ function playerDashboard() {
     const formatDate = (date) => {
         if (!date) return "—";
 
-        return new Date(date).toLocaleString("en-IN", {
+        const parsedDate = new Date(date);
+
+        if (Number.isNaN(parsedDate.getTime())) {
+            return "—";
+        }
+
+        return parsedDate.toLocaleString("en-IN", {
             dateStyle: "medium",
             timeStyle: "short"
         });
@@ -111,6 +141,7 @@ function playerDashboard() {
             <div className="dashboard-error">
                 <h2>Unable to load dashboard</h2>
                 <p>{error}</p>
+
                 <button onClick={() => navigate("/levels")}>
                     Back to Levels
                 </button>
@@ -171,14 +202,17 @@ function playerDashboard() {
 
             {/* Dashboard Header */}
             <header className="dashboard-header">
+
                 <div className="dashboard-brand">
                     <span className="dashboard-logo">🫧</span>
+
                     <h1>
                         Bubble<span>Shooter....</span>
                     </h1>
                 </div>
 
                 <div className="dashboard-header-actions">
+
                     <button
                         className="back-levels-btn"
                         onClick={() => navigate("/levels")}
@@ -192,6 +226,7 @@ function playerDashboard() {
                     >
                         Logout
                     </button>
+
                 </div>
             </header>
 
@@ -199,117 +234,163 @@ function playerDashboard() {
 
                 {/* Welcome Section */}
                 <section className="dashboard-welcome">
+
                     <div className="welcome-avatar">
                         {player?.firstname?.charAt(0)?.toUpperCase() || "P"}
                     </div>
 
                     <div className="welcome-details">
-                        <p className="dashboard-eyebrow">PLAYER DASHBOARD</p>
-                        <h2>Welcome, {player?.firstname || "Player"}!</h2>
-                        <p>Track your Bubble Shooter progress and achievements.</p>
+
+                        <p className="dashboard-eyebrow">
+                            PLAYER DASHBOARD
+                        </p>
+
+                        <h2>
+                            Welcome, {player?.firstname || "Player"}!
+                        </h2>
+
+                        <p>
+                            Track your Bubble Shooter progress and achievements.
+                        </p>
+
                     </div>
 
                     <div className="player-level-badge">
                         <span>LEVEL</span>
                         <strong>{player?.currentLevel ?? 1}</strong>
                     </div>
+
                 </section>
 
                 {/* Personal Information */}
-             
-{/* Personal Information */}
-<section className="dashboard-section">
-    <div className="section-heading">
-        <div>
-            <p className="dashboard-eyebrow">ACCOUNT</p>
-            <h2>Player Information</h2>
-        </div>
-    </div>
+                <section className="dashboard-section">
 
-    <div className="player-info-card">
+                    <div className="section-heading">
+                        <div>
+                            <p className="dashboard-eyebrow">ACCOUNT</p>
+                            <h2>Player Information</h2>
+                        </div>
+                    </div>
 
-        <div className="info-item">
-            <div className="info-icon">👤</div>
-            <div className="info-content">
-                <span>First Name</span>
-                <strong>{("  ")+player?.firstname || "—"}</strong>
-            </div>
-        </div>
+                    <div className="player-info-card">
 
-        <div className="info-item">
-            <div className="info-icon">🧑</div>
-            <div className="info-content">
-                <span>Last Name</span>
-                <strong>{("  ")+player?.lastname || "—"}</strong>
-            </div>
-        </div>
+                        <div className="info-item">
+                            <div className="info-icon">👤</div>
 
-        <div className="info-item">
-            <div className="info-icon">✨</div>
-            <div className="info-content">
-                <span>Full Name</span>
-                <strong>{("  ")+fullName || "—"}</strong>
-            </div>
-        </div>
+                            <div className="info-content">
+                                <span>First Name</span>
+                                <strong>
+                                    {player?.firstname || "—"}
+                                </strong>
+                            </div>
+                        </div>
 
-        <div className="info-item">
-            <div className="info-icon">✉️</div>
-            <div className="info-content">
-                <span>Email Address</span>
-                <strong>{("  ")+player?.email || "—"}</strong>
-            </div>
-        </div>
+                        <div className="info-item">
+                            <div className="info-icon">🧑</div>
 
-    </div>
-</section>
+                            <div className="info-content">
+                                <span>Last Name</span>
+                                <strong>
+                                    {player?.lastname || "—"}
+                                </strong>
+                            </div>
+                        </div>
 
+                        <div className="info-item">
+                            <div className="info-icon">✨</div>
+
+                            <div className="info-content">
+                                <span>Full Name</span>
+                                <strong>
+                                    {fullName || "—"}
+                                </strong>
+                            </div>
+                        </div>
+
+                        <div className="info-item">
+                            <div className="info-icon">✉️</div>
+
+                            <div className="info-content">
+                                <span>Email Address</span>
+                                <strong>
+                                    {player?.email || "—"}
+                                </strong>
+                            </div>
+                        </div>
+
+                    </div>
+                </section>
 
                 {/* Player Statistics */}
                 <section className="dashboard-section">
+
                     <div className="section-heading">
                         <div>
-                            <p className="dashboard-eyebrow">PERFORMANCE</p>
+                            <p className="dashboard-eyebrow">
+                                PERFORMANCE
+                            </p>
+
                             <h2>Your Game Statistics</h2>
                         </div>
                     </div>
 
                     <div className="stats-grid">
+
                         {stats.map((stat) => (
-                            <div className="stat-card" key={stat.title}>
+                            <div
+                                className="stat-card"
+                                key={stat.title}
+                            >
+
                                 <div className="stat-card-top">
+
                                     <span className="stat-icon">
                                         {stat.icon}
                                     </span>
+
                                     <span className="stat-title">
                                         {stat.title}
                                     </span>
+
                                 </div>
 
                                 <strong className="stat-value">
                                     {Number(stat.value).toLocaleString("en-IN")}
                                 </strong>
+
                             </div>
                         ))}
+
                     </div>
                 </section>
 
                 {/* Game History */}
                 <section className="dashboard-section">
+
                     <div className="section-heading">
+
                         <div>
-                            <p className="dashboard-eyebrow">ACTIVITY</p>
+                            <p className="dashboard-eyebrow">
+                                ACTIVITY
+                            </p>
+
                             <h2>Recent Game History</h2>
                         </div>
 
                         <span className="history-count">
                             {history.length} Games
                         </span>
+
                     </div>
 
                     {history.length === 0 ? (
+
                         <div className="empty-history">
+
                             <span>🎮</span>
+
                             <h3>No Games Played Yet</h3>
+
                             <p>
                                 Start playing Bubble Shooter to see your
                                 game history here.
@@ -318,10 +399,15 @@ function playerDashboard() {
                             <button onClick={() => navigate("/levels")}>
                                 Play Now
                             </button>
+
                         </div>
+
                     ) : (
+
                         <div className="history-table-wrapper">
+
                             <table className="history-table">
+
                                 <thead>
                                     <tr>
                                         <th>Game</th>
@@ -334,54 +420,64 @@ function playerDashboard() {
                                 </thead>
 
                                 <tbody>
-                                    {history.map((game) => (
-                                        <tr key={game._id}>
-                                            <td>
-                                                {game.gameName || "Bubble Shooter"}
-                                            </td>
 
-                                            <td>Level {game.level}</td>
+                                    {history.map((game) => {
 
-                                            <td>
-                                                {Number(game.score || 0).toLocaleString("en-IN")}
-                                            </td>
+                                        const stars = Math.max(
+                                            0,
+                                            Math.min(3, Number(game.stars) || 0)
+                                        );
 
-                                            <td>
-                                                {"⭐".repeat(
-                                                    Math.max(
-                                                        0,
-                                                        Math.min(3, game.stars || 0)
-                                                    )
-                                                )}
-                                                {game.stars === 0 ? "—" : ""}
-                                            </td>
+                                        const status =
+                                            game.status ||
+                                            (game.completed ? "won" : "failed");
 
-                                            <td>
-                                                <span
-                                                    className={`history-status ${
-                                                        game.status || (
-                                                            game.completed
-                                                                ? "won"
-                                                                : "failed"
-                                                        )
-                                                    }`}
-                                                >
-                                                    {game.status ||
-                                                        (game.completed ? "won" : "failed")}
-                                                </span>
-                                            </td>
+                                        return (
+                                            <tr key={game._id}>
 
-                                            <td>
-                                                {formatDate(
-                                                    game.completedAt || game.startedAt
-                                                )}
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                <td>
+                                                    {game.gameName || "Bubble Shooter"}
+                                                </td>
+
+                                                <td>
+                                                    Level {game.level}
+                                                </td>
+
+                                                <td>
+                                                    {Number(game.score || 0)
+                                                        .toLocaleString("en-IN")}
+                                                </td>
+
+                                                <td>
+                                                    {"⭐".repeat(stars)}
+                                                    {stars === 0 ? "—" : ""}
+                                                </td>
+
+                                                <td>
+                                                    <span
+                                                        className={`history-status ${status}`}
+                                                    >
+                                                        {status}
+                                                    </span>
+                                                </td>
+
+                                                <td>
+                                                    {formatDate(
+                                                        game.completedAt ||
+                                                        game.startedAt
+                                                    )}
+                                                </td>
+
+                                            </tr>
+                                        );
+                                    })}
+
                                 </tbody>
                             </table>
+
                         </div>
                     )}
+
                 </section>
 
                 {error && (
@@ -395,8 +491,9 @@ function playerDashboard() {
             <footer className="dashboard-footer">
                 © {new Date().getFullYear()} POPVERSE — Keep Playing, Keep Popping!
             </footer>
+
         </div>
     );
 }
 
-export default playerDashboard;
+export default PlayerDashboard;
