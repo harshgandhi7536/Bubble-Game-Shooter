@@ -3,51 +3,88 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import "./css_files/loginscreen.css";
-
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
 function LoginPage() {
     const navigate = useNavigate();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+    // const handleLogin = async (e) => {
+    //     e.preventDefault();
 
-        try {
-            const response = await fetch("http://localhost:8000/signup/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    email,
-                    password
-                })
+    //     try {
+    //         const response = await fetch("http://localhost:8000/signup/login", {
+    //             method: "POST",
+    //             headers: {
+    //                 "Content-Type": "application/json"
+    //             },
+    //             body: JSON.stringify({
+    //                 email,
+    //                 password
+    //             })
+    //         });
+
+    //         const data = await response.json();
+
+    //         if (response.ok) {
+    //             // Save logged-in user details
+    //             localStorage.setItem(
+    //                 "bubble-shooter-user",
+    //                 JSON.stringify(data.user)
+    //             );
+
+    //             // Navigate to dashboard
+    //             navigate("/dashboard", {
+    //                 state: { user: data.user }
+    //             });
+
+    //         } else {
+    //             alert(data.message || "Login failed");
+    //         }
+
+    //     } catch (error) {
+    //         console.log("Login Error:", error);
+    //         alert("Unable to connect to server!");
+    //     }
+    // };
+    
+const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+        const response = await fetch(`${API_URL}/signup/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                email,
+                password
+            })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+            localStorage.setItem(
+                "bubble-shooter-user",
+                JSON.stringify(data.user)
+            );
+
+            navigate("/dashboard", {
+                state: { user: data.user }
             });
 
-            const data = await response.json();
-
-            if (response.ok) {
-                // Save logged-in user details
-                localStorage.setItem(
-                    "bubble-shooter-user",
-                    JSON.stringify(data.user)
-                );
-
-                // Navigate to dashboard
-                navigate("/dashboard", {
-                    state: { user: data.user }
-                });
-
-            } else {
-                alert(data.message || "Login failed");
-            }
-
-        } catch (error) {
-            console.log("Login Error:", error);
-            alert("Unable to connect to server!");
+        } else {
+            alert(data.message || "Login failed");
         }
-    };
+
+    } catch (error) {
+        console.log("Login Error:", error);
+        alert("Unable to connect to server!");
+    }
+};
 
     return (
         <div className="login-parent">

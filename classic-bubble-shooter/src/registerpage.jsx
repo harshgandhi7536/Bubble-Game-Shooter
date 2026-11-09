@@ -2,8 +2,8 @@
 import React, { useState } from 'react';
 import './css_files/registerpage.css';
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
-
+// const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL;
 function RegisterPage() {
     const [email, setEmail] = useState("");
     const [firstname, setFirstname] = useState("");
@@ -13,7 +13,10 @@ function RegisterPage() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-
+        if (!API_URL) {
+             alert("Server configuration error. Please try again later.");
+               return;
+        }
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
