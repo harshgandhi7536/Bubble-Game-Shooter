@@ -140,8 +140,7 @@ const completionSentRef = useRef(false);
   const [message, setMessage] = useState("");
   const [soundOn, setSoundOn] = useState(false);
 const clickSoundAudio = useRef(null);
-const API_URL =
-    import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 useEffect(() => {
   clickSoundAudio.current = new Audio(clickSound);

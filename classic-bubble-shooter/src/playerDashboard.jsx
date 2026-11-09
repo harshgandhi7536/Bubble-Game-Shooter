@@ -2,9 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./css_files/playerDashboard.css";
-
-const API_URL =
-    import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL;
 
 const GAMES_API = `${API_URL}/api/games`;
 

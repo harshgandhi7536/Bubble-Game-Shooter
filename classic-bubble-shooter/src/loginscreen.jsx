@@ -3,7 +3,8 @@
 import { useNavigate, Link } from "react-router-dom";
 import { useState } from "react";
 import "./css_files/loginscreen.css";
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+// const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL;
 function LoginPage() {
     const navigate = useNavigate();
 
