@@ -10,15 +10,15 @@ import PlayerDashboard from "./playerDashboard";
    <BrowserRouter>
     <Routes>  
       {/* Menu Page */}
-        {/* <Route path="/" element={<LoginPage />} /> */}
-        <Route path ="/signup" element={<RegisterPage />}/>
-        <Route path ="/" element={<LoginScreen />}/>
-        <Route path ="/levels" element={<Levels_Page />}/>
-        <Route path ="/gamescreen" element={<GameScreen />}/>
-          {/* Player Dashboard */}
-        <Route path="/dashboard" element={<PlayerDashboard />} />
-    </Routes>
-   </BrowserRouter>
+          {/* <Route path="/" element={<LoginPage />} /> */}
+          <Route path ="/signup" element={<RegisterPage />}/>
+          <Route path ="/" element={<LoginScreen />}/>
+          <Route path ="/levels" element={<Levels_Page />}/>
+          <Route path ="/gamescreen" element={<GameScreen />}/>
+            {/* Player Dashboard */}
+          <Route path="/dashboard" element={<PlayerDashboard />} />
+      </Routes>
+    </BrowserRouter>
   );
 }
     
